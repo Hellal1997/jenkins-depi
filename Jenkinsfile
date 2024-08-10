@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'IMAGE_NAME', defaultValue: 'nginx', description: 'Docker image to pull')
-        string(name: 'TAG', defaultValue: 'latest', description: 'Tag of the Docker image')
+        string(name: ' custom-nginx', defaultValue: 'nginx', description: 'Docker image to pull')
+        string(name: 'latst', defaultValue: 'latest', description: 'Tag of the Docker image')
         booleanParam(name: 'RUN_CONTAINERS', defaultValue: true, description: 'Run Docker containers after pulling the image')
     }
 
@@ -11,10 +11,10 @@ pipeline {
         stage('Pull Docker Image') {
             steps {
                 script {
-                    def imageName = params.nginx
+                    def imageName = params. custom-nginx
                     def tag = params.latest 
-                    echo "Pulling Docker image ${imageName}:${tag}"
-                    sh "docker pull ${imageName}:${tag}"
+                    echo "Pulling Docker image ${ custom-nginx}:${latest}"
+                    sh "docker pull ${ custom-nginx}:${latest}"
                 }
             }
         }
@@ -25,8 +25,8 @@ pipeline {
             }
             steps {
                 script {
-                    echo "Running Docker container for ${params.IMAGE_NAME}:${params.TAG}"
-                    sh "docker run -d ${params.IMAGE_NAME}:${params.TAG}"
+                    echo "Running Docker container for ${params. custom-nginx}:${params.latest}"
+                    sh "docker run -d ${params. custom-nginx}:${params.latest}"
                 }
             }
         }
