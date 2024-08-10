@@ -10,7 +10,7 @@ pipeline {
             steps {
                 checkout scm
                 script {
-                    // List files to debug
+                    // Debugging: List files in workspace
                     sh 'ls -la'
                 }
             }
@@ -19,10 +19,10 @@ pipeline {
             steps {
                 script {
                     def imageName = "mohamedhellal22/jenkins-depi"
-                    def imageTag = "${params.lts}"
+                    def imageTag = "${params.IMAGE_TAG}"
                     
                     // Build Docker image
-                    docker.build("${jenkins/jenkins}:${lts}", "-f Dockerfile .")
+                    docker.build("${imageName}:${imageTag}", "-f Dockerfile .")
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                        docker.image("mohamedhellal22/jenkins-depi:${params.lts}").push("${params.lts}")
+                        docker.image("mohamedhellal22/jenkins-depi:${params.IMAGE_TAG}").push("${params.IMAGE_TAG}")
                     }
                 }
             }
