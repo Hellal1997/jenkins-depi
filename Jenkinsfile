@@ -12,13 +12,15 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    dockerImage = docker.build("mohamedhellal22/jenkins depi:${params.latest}")
-                }
-            }
+         stage('Build Docker Image') {
+    steps {
+        script {
+            def imageName = "mohamedhellal22/jenkins-depi"
+            def imageTag = "${params.latest}"
+            def image = docker.build("${jenkins}:${lts}")
         }
+    }
+}
 
         stage('Push Docker Image') {
             steps {
