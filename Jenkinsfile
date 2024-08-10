@@ -1,56 +1,25 @@
 pipeline {
     agent any
-
-    parameters {
-        string(name: 'DOCKER_TAG', defaultValue: 'latest', description: 'Tag for the Docker image')
-    }
-
-    environment {
-        // Define Docker image name
-        DOCKER_IMAGE_NAME = 'your-docker-image-name'
-        // Define Docker registry credentials ID
-        DOCKER_CREDENTIALS_ID = 'your-docker-credentials-id'
-    }
-
-    triggers {
-        // Trigger the build on changes to the Test branch
-        scm('H/5 * * * *')
-    }
-
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                // Checkout code from Git repository
-                git credentialsId: 'your-github-credentials-id', url: 'https://github.com/your-repo.git', branch: 'Test'
+                git credentialsId: 'e3bb9adf-6f8c-4632-bf74-1b4634a3ac0b', url: 'https://github.com/Hellal1997/jenkins-depi.git', branch: 'test'
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build Docker image with the parameterized tag
-                    def image = docker.build("${DOCKER_IMAGE_NAME}:${params.DOCKER_TAG}", "-f Dockerfile .")
+                    docker.build("mohamedhellal/DOCKER_TAG:${params.latest}", "-f Dockerfile .")
                 }
             }
         }
-
         stage('Push Docker Image') {
             steps {
                 script {
-                    // Log in to Docker registry and push Docker image
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS_ID) {
-                        docker.image("${DOCKER_IMAGE_NAME}:${params.DOCKER_TAG}").push("${params.DOCKER_TAG}")
+                    docker.withRegistry('https://index.docker.io/v1/', 'af255d4a-5daf-40af-a4c7-b217af9029a9') {
+                        docker.image("mohamedhellal/DOCKER_TAG:${params.latest}").push('latest')
                     }
                 }
-            }
-        }
-    }
-
-    post {
-        always {
-            // Clean up Docker images to save space
-            script {
-                sh 'docker system prune -f'
             }
         }
     }
