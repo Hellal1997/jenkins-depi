@@ -15,7 +15,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("your-dockerhub-username/your-image-name:${params.DOCKER_IMAGE_TAG}")
+                    dockerImage = docker.build("mohamedhellal22/jenkins/jenkins:lts:${params.DOCKER_IMAGE_TAG}")
                 }
             }
         }
