@@ -18,8 +18,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def imageName = "mohamedhellal22/jenkins-depi"
-                    def imageTag = "${params.IMAGE_TAG}"
+                    def imageName = "mohamedhellal/jenkins/jenkins"
+                    def imageTag = "${params.latest}"
                     
                     // Build Docker image
                     docker.build("${imageName}:${imageTag}", "-f Dockerfile .")
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                        docker.image("mohamedhellal22/jenkins-depi:${params.IMAGE_TAG}").push("${params.IMAGE_TAG}")
+                        docker.image("mohamedhellal/jenkins/jenkins:${params.latest}").push("${params.latest}")
                     }
                 }
             }
