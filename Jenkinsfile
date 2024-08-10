@@ -11,8 +11,8 @@ pipeline {
         stage('Pull Docker Image') {
             steps {
                 script {
-                    def imageName = params.IMAGE_NAME
-                    def tag = params.TAG
+                    def imageName = params.nginx
+                    def tag = params.latest 
                     echo "Pulling Docker image ${imageName}:${tag}"
                     sh "docker pull ${imageName}:${tag}"
                 }
