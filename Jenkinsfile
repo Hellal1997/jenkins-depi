@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                        docker.image("mohamedhellal22/jenkins-depi:${params.IMAGE_TAG}").push("${params.IMAGE_TAG}")
+                        docker.image("mohamedhellal22/jenkins-depi:${params.lts}").push("${params.lts}")
                     }
                 }
             }
