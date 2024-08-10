@@ -1,24 +1,29 @@
 pipeline {
     agent any
+
+    parameters {
+        string(name: 'Docker Image Tag', defaultValue: 'latest', description: 'Tag for the Docker image')
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'e3bb9adf-6f8c-4632-bf74-1b4634a3ac0b', url: 'https://github.com/Hellal1997/jenkins-depi.git', branch: 'test'
+                git branch: 'Test', url: 'https://github.com/Hellal1997/jenkins-depi.git'
             }
         }
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("mohamedhellal/DOCKER_TAG:${params.latest}", "-f Dockerfile .")
+                    def dockerTag = "${params.Docker Image Tag}"
+                    sh "docker build -t mohamedhellal/jenkins-depi:${dockerTag} -f Dockerfile ."
                 }
             }
         }
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'af255d4a-5daf-40af-a4c7-b217af9029a9') {
-                        docker.image("mohamedhellal/DOCKER_TAG:${params.latest}").push('latest')
-                    }
+                    def dockerTag = "${params.Docker Image Tag}"
+                    sh "docker push mohamedhellal/jenkins-depi:${dockerTag}"
                 }
             }
         }
