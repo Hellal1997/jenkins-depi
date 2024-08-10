@@ -1,4 +1,4 @@
-CI/CD Task: Jenkins Setup and Pipeline Creation
+CI/CD : Jenkins Setup and Pipeline Creation
 1. Install Jenkins
 
 
